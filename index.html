@@ -6,6 +6,26 @@
 
 <body>
   <div id="app">
+    <div>
+      <div>
+        <p>Cari Resep Disini</p>
+        <p>
+          <input v-model="newBahan">
+          <button @click="tambahBahan">tambah</button>
+        </p>
+
+
+        <div v-if="query.length">
+          <ol v-for="(item, index) in query">
+            <li>{{ item }}
+              <button @click="hapusBahan(index)">X</button>
+            </li>
+          </ol>
+          <button @click="cariResep1">Cari Resep</button>
+        </div>
+      </div>
+    </div>
+
     <div id="jawaban">
       <p id="showSoal">
         {{ testSoal }}
@@ -17,8 +37,7 @@
   </div>
 
   <script src="vue.js"></script>
-  <script src="math.js"></script>
-  <script src="./test.js"></script>
+  <script src="./rumusCari.js"></script>
 
 </body>
 

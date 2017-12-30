@@ -50,6 +50,17 @@ const getDperDf = (query, lengthDocuments) => {
   });
 };
 
+//
+const getIDF = (query, lengthDocuments) => {
+  return query.map(termQuery => {
+    const { dperDf } = termQuery;
+    return {
+      ...termQuery,
+      idf: Math.log(dperDf) + 1
+    };
+  });
+};
+
 const documents = [
   {
     id: 'd1',
@@ -95,11 +106,35 @@ const prosesQuery = [
 const cariTF = getQuerysTF(prosesQuery, jawaban);
 const cariDF = getDF(cariTF);
 const cariDperDf = getDperDf(cariDF, jawaban.length);
+const cariIDF = getIDF(cariDperDf, jawaban.length);
 
 const app = new Vue({
   el: '#app',
   data: {
-    testSoal: documents,
-    testJawaban: cariDperDf
+    testSoal: jawaban,
+    testJawaban: cariIDF
   }
 });
+
+/*
+
+resep1
+bawah
+cabe 
+terigu
+
+resep2
+bawang
+nasi
+
+
+query: bawang, terigu
+
+resep1.
+const hasilResep = resep1.map(resep => {
+  const { bahan } = resep;
+  const count
+  bahan.reduce((a, b) => { return query.indexOf(b) >= 0 ? a++, a} , 0)
+})
+
+*/
