@@ -5,9 +5,49 @@ const steaming = paragrahp => {
   });
 };
 
-// abaiakn banyaknya
+// cari TF dari Query Object
 const getTF = ({ id, docSteaming }, term) => {
   if (docSteaming.indexOf(term) >= 0) return id;
+};
+
+// cariTF fungsi dari kumpulan query object
+// syarat fungsi ini kumpulan query Object harus punya prop term
+const getQuerysTF = (query, documents) => {
+  return query.map(termQuery => {
+    const { term } = termQuery;
+    const tf = documents
+      .reduce((a, b) => {
+        return a.concat(getTF(b, term));
+      }, []) // cari tf
+      .filter(doc => doc); // abaikan null
+
+    return {
+      term,
+      tf
+    };
+  });
+};
+
+// get df
+const getDF = query => {
+  return query.map(termQuery => {
+    const { tf } = termQuery;
+    return {
+      ...termQuery,
+      df: tf.length
+    };
+  });
+};
+
+// banyak documents dibagi documents frequensi per query
+const getDperDf = (query, lengthDocuments) => {
+  return query.map(termQuery => {
+    const { df } = termQuery;
+    return {
+      ...termQuery,
+      dperDf: lengthDocuments / df
+    };
+  });
 };
 
 const documents = [
@@ -26,11 +66,10 @@ const documents = [
 ];
 
 const jawaban = documents.map(doc => {
-  const { id, description } = doc;
+  const { description } = doc;
   const docSteaming = steaming(description);
   return {
-    id,
-    description,
+    ...doc,
     docSteaming
   };
 });
@@ -38,36 +77,29 @@ const jawaban = documents.map(doc => {
 const prosesQuery = [
   {
     term: 'gold',
-    tf: []
+    tf: [],
+    df: 0
   },
   {
     term: 'silver',
-    tf: []
+    tf: [],
+    df: 0
   },
   {
     term: 'truck',
-    tf: []
+    tf: [],
+    df: 0
   }
 ];
 
-const hasilProsesQuery = prosesQuery.map(termQuery => {
-  const { term } = termQuery;
-  const tf = jawaban
-    .reduce((a, b) => {
-      return a.concat(getTF(b, term));
-    }, [])
-    .filter(doc => doc);
-
-  return {
-    term,
-    tf
-  };
-});
+const cariTF = getQuerysTF(prosesQuery, jawaban);
+const cariDF = getDF(cariTF);
+const cariDperDf = getDperDf(cariDF, jawaban.length);
 
 const app = new Vue({
   el: '#app',
   data: {
     testSoal: documents,
-    testJawaban: hasilProsesQuery
+    testJawaban: cariDperDf
   }
 });
