@@ -5,6 +5,11 @@ const steaming = paragrahp => {
   });
 };
 
+// abaiakn banyaknya
+const getTF = ({ id, docSteaming }, term) => {
+  if (docSteaming.indexOf(term) >= 0) return id;
+};
+
 const documents = [
   {
     id: 'd1',
@@ -30,17 +35,39 @@ const jawaban = documents.map(doc => {
   };
 });
 
-const terms = [
+const prosesQuery = [
   {
-    term: 'indonesia',
-    location: ['dok1', 'dok2', 'dok3']
+    term: 'gold',
+    tf: []
+  },
+  {
+    term: 'silver',
+    tf: []
+  },
+  {
+    term: 'truck',
+    tf: []
   }
 ];
+
+const hasilProsesQuery = prosesQuery.map(termQuery => {
+  const { term } = termQuery;
+  const tf = jawaban
+    .reduce((a, b) => {
+      return a.concat(getTF(b, term));
+    }, [])
+    .filter(doc => doc);
+
+  return {
+    term,
+    tf
+  };
+});
 
 const app = new Vue({
   el: '#app',
   data: {
     testSoal: documents,
-    testJawaban: jawaban
+    testJawaban: hasilProsesQuery
   }
 });
