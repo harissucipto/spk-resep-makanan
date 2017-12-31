@@ -9,6 +9,19 @@
 
 <body>
   <div id="app">
+    <div id="switch">
+      <h3>Switch Tampilan</h3>
+      <p>Tambah Resep :
+        <button @click="() => { lihatTambahResep = !lihatTambahResep }">{{ tombolShow(lihatTambahResep) }}</button>
+      </p>
+      <p>Cari Resep :
+        <button @click="() => { lihatCariResep = !lihatCariResep }">{{ tombolShow(lihatCariResep) }}</button>
+      </p>
+      <p>List Resep :
+        <button @click="() => { lihatListResep = !lihatListResep }">{{ tombolShow(lihatListResep) }}</button>
+      </p>
+    </div>
+
     <div id="tambahResep" v-if="lihatTambahResep">
       <header>
         <h1>Tambah Resep Masakan</h1>
@@ -90,7 +103,7 @@
 
       </section>
     </div>
-    <div id="cariResep">
+    <div id="cariResep" v-if="lihatCariResep">
       <h3>Cari Resep</h3>
       <div id="berdasarkanBahan">
         <h4>Berdasarkan Bahan yang kamu miliki:
@@ -113,9 +126,9 @@
       </div>
     </div>
 
-    <div id="hasilCariResep">
+    <div id="hasilCariResep" v-if="isJawaban">
+      <h3>Hasil Pencarian:</h3>
       <div v-if="hasilQueryBahan.length">
-        <h3>Hasil Pencarian:</h3>
         <div v-for="(resep, index) in hasilQueryBahan">
           <div class="resep">
             <header>
@@ -150,6 +163,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div v-else>
+        0 resep yang sesuai dengan bahan yang tersedia.
       </div>
     </div>
 

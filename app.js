@@ -4,6 +4,8 @@ const App = new Vue({
     // status page
     lihatTambahResep: false,
     lihatListResep: true,
+    lihatCariResep: true,
+    isJawaban: false,
 
     // form tambah resep
     namaResep: '',
@@ -23,6 +25,19 @@ const App = new Vue({
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
           { nama: 'nasi', banyak: '1kg' },
+          { nama: 'ubi', banyak: '1kg' }
+        ],
+        langkahResep: [{ nama: 'kurangi bumbu' }, { nama: 'tambah bumbu' }]
+      },
+      {
+        namaResep: 'abu bekatul',
+        descResep: 'ayam yang sangat enak',
+        kesulitanResep: '1',
+        lamaResep: '2',
+        showResep: false,
+        bahanResep: [
+          { nama: 'ayam', banyak: '2 kg' },
+          { nama: 'abu', banyak: '1kg' },
           { nama: 'ubi', banyak: '1kg' }
         ],
         langkahResep: [{ nama: 'kurangi bumbu' }, { nama: 'tambah bumbu' }]
@@ -51,6 +66,7 @@ const App = new Vue({
       this.langkahResep.pop();
     },
     tambahResep() {
+      console.log(this.bahanResep);
       if (!this.namaResep) {
         alert('Nama Resep Harus dimasukan');
         return;
@@ -83,25 +99,41 @@ const App = new Vue({
       this.descResep = '';
       this.kesulitanResep = '';
       this.lamaResep = '';
-      this.bahanResep.splice(0);
-      this.langkahResep.splice(0);
     },
 
     // fungsi untuk pencarian berdarakan bahan
     masukanBahan() {
-      this.hasilQueryBahan.splice(0); // agar bersih pencarianya dulu
+      this.isJawaban = false;
+
       this.queryBahan.push(this.newBahan);
       this.newBahan = '';
     },
     hapusBahan(index) {
-      this.hasilQueryBahan.splice(0); // agar bersih pencarianya dulu
+      this.isJawaban = false;
+
       this.queryBahan.splice(index, 1);
     },
     cariResepBahan() {
+      this.isJawaban = true;
       this.hasilQueryBahan.splice(0);
-      this.hasilQueryBahan.push(
-        ...this.algoCariResepBahan(this.storeResep, this.queryBahan)
-      );
+
+      // cari hasil dan filter
+      const hasil = this.algoCariResepBahan(
+        this.storeResep,
+        this.queryBahan
+      ).filter(resep => resep.count);
+
+      if (!hasil) return; // jika count 0 abaikan
+
+      const sortingHasil = hasil //descent
+        .sort((a, b) => {
+          const x = a.count,
+            y = b.count;
+          return x < y ? -1 : x > y ? 1 : 0;
+        })
+        .reverse();
+
+      this.hasilQueryBahan.push(...sortingHasil);
     },
     algoCariResepBahan(listResep, queryBahan) {
       return listResep.map(resep => {
