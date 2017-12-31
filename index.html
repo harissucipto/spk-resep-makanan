@@ -8,7 +8,7 @@
 
 <body>
   <div id="app">
-    <div id="tambahResep">
+    <div id="tambahResep" v-if="lihatTambahResep">
       <header>
         <h1>Tambah Resep Masakan</h1>
       </header>
@@ -89,10 +89,39 @@
 
       </section>
     </div>
-
-    <div>
-      <p>{{ storeResep }}</p>
+    <div id="listResep" v-if="lihatListResep">
+      <h2>List Resep Makanan</h2>
+      <div v-for="(resep, index) in storeResep" v-if="storeResep.length">
+        <div class="resep">
+          <header>
+            <h3> {{ resep.namaResep }}</h3>
+            <i>
+              Keterangan: {{ resep.descResep }}
+            </i>
+            <p>
+              tingkat Kesulitan: {{ resep.kesulitanResep }}
+            </p>
+            <p>
+              Lama Memasak: {{ resep.lamaResep }} menit
+            </p>
+          </header>
+          <div>
+            <p>Bahan - Bahan:</p>
+            <ul>
+              <li v-for="bahan in resep.bahanResep">{{ bahan.nama }} {{ bahan.banyak }}</li>
+            </ul>
+          </div>
+          <div>
+            <p>Langkah - Langkah:</p>
+            <ol>
+              <li v-for="langkah in resep.langkahResep">{{ langkah.nama }}</li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </div>
 
   <script src="./app.js"></script>
