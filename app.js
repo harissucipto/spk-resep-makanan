@@ -93,6 +93,23 @@ const App = new Vue({
     hapusBahan(index) {
       this.queryBahan.splice(index, 1);
     },
-    cariResepBahan() {}
+    cariResepBahan() {
+      this.hasilQueryBahan.splice(0);
+      this.hasilQueryBahan.push(
+        ...this.algoCariResepBahan(this.storeResep, this.queryBahan)
+      );
+    },
+    algoCariResepBahan(listResep, queryBahan) {
+      return listResep.map(resep => {
+        const { bahanResep, namaResep } = resep;
+        const count = bahanResep.reduce((total, item) => {
+          return queryBahan.indexOf(item.nama) >= 0 ? total + 1 : total;
+        }, 0);
+        return {
+          namaResep,
+          count
+        };
+      });
+    }
   }
 });
