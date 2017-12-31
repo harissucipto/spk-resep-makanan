@@ -14,10 +14,10 @@
       </header>
       <section>
         <p>Nama Resep :
-          <input type="text" v-model="namaResep">
+          <input type="text" v-model="namaResep" required>
         </p>
         <p>Description:
-          <textarea v-model="descResep">
+          <textarea v-model="descResep" required>
 
           </textarea>
         </p>
@@ -30,7 +30,7 @@
           </select>
         </p>
         <p>Lama Memasak (menit):
-          <input type="number" v-model="lamaResep">
+          <input type="number" v-model="lamaResep" required>
         </p>
 
         <div>
@@ -88,6 +88,10 @@
         <button @click="tambahResep">Submit Resep Baru</button>
 
       </section>
+    </div>
+
+    <div>
+      <p>{{ bahanResep }}</p>
     </div>
   </div>
 

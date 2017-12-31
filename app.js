@@ -11,21 +11,39 @@ const App = new Vue({
   },
   methods: {
     tambahBahan() {
-      const inputanBahan = { nama: '', banyak: '' };
-      this.bahanResep.push({ inputanBahan });
+      this.bahanResep.push({});
     },
     kurangiBahan() {
       if (this.bahanResep.length <= 0) return;
       this.bahanResep.pop();
     },
     tambahLangkah() {
-      const inputanLangkah = { nama: '' };
-      this.langkahResep.push({ inputanLangkah });
+      this.langkahResep.push({});
     },
     kurangiLangkah() {
       if (this.bahanResep.length <= 0) return;
       this.langkahResep.pop();
     },
-    tambahResep() {}
+    tambahResep() {
+      const {
+        namaResep,
+        descResep,
+        kesulitanResep,
+        lamaResep,
+        bahanResep,
+        langkahResep
+      } = this;
+
+      const resepBaru = {
+        namaResep,
+        descResep,
+        kesulitanResep,
+        lamaResep,
+        bahanResep,
+        langkahResep
+      };
+
+      this.storeResep.push(resepBaru);
+    }
   }
 });
