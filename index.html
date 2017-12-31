@@ -89,6 +89,29 @@
 
       </section>
     </div>
+    <div id="cariResep">
+      <h3>Cari Resep</h3>
+      <div id="berdasarkanBahan">
+        <h4>Berdasarkan Bahan yang kamu miliki:
+        </h4>
+        <div id="formBahan">
+          <input placeholder="masukan bahan" v-model="newBahan">
+          <button @click="masukanBahan">Masukan</button>
+        </div>
+
+        <div v-if="queryBahan.length">
+          <ol>
+            <li v-for="(bahan, index) in queryBahan">{{ bahan }}
+              <button @click="hapusBahan(index)">X</button>
+            </li>
+          </ol>
+          <button @click="cariResepBahan">Cari Resep</button>
+        </div>
+
+
+      </div>
+    </div>
+
     <div id="listResep" v-if="lihatListResep">
       <h2>List Resep Makanan</h2>
       <div v-for="(resep, index) in storeResep" v-if="storeResep.length">

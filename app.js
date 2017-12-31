@@ -1,9 +1,11 @@
 const App = new Vue({
   el: '#app',
   data: {
+    // status page
     lihatTambahResep: false,
     lihatListResep: true,
 
+    // form tambah resep
     namaResep: '',
     descResep: '',
     kesulitanResep: '',
@@ -24,9 +26,15 @@ const App = new Vue({
         ],
         langkahResep: [{ nama: 'kurangi bumbu' }, { nama: 'tambah bumbu' }]
       }
-    ]
+    ],
+
+    // pencarian berdasrakan bahan
+    newBahan: '',
+    queryBahan: [],
+    hasilQueryBahan: []
   },
   methods: {
+    // fungsi untuk halaman tambah resep
     tambahBahan() {
       this.bahanResep.push({});
     },
@@ -75,6 +83,16 @@ const App = new Vue({
       this.lamaResep = '';
       this.bahanResep.splice(0);
       this.langkahResep.splice(0);
-    }
+    },
+
+    // fungsi untuk pencarian berdarakan bahan
+    masukanBahan() {
+      this.queryBahan.push(this.newBahan);
+      this.newBahan = '';
+    },
+    hapusBahan(index) {
+      this.queryBahan.splice(index, 1);
+    },
+    cariResepBahan() {}
   }
 });
