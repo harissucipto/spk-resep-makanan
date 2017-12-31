@@ -4,6 +4,7 @@
   <title>Contoh Pembobotan TF-IDF</title>
 
   <script src="vue.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -111,9 +112,44 @@
 
       </div>
     </div>
+
     <div id="hasilCariResep">
-      <div id="berdasrakanBahan">
-        {{ hasilQueryBahan }}
+      <div v-if="hasilQueryBahan.length">
+        <h3>Hasil Pencarian:</h3>
+        <div v-for="(resep, index) in hasilQueryBahan">
+          <div class="resep">
+            <header>
+              <i>Total Bahan Sesuai:
+                <p>{{ resep.count }}</p>
+              </i>
+              <h3> {{ resep.namaResep }}</h3>
+              <i>
+                Keterangan: {{ resep.descResep }}
+              </i>
+              <p>
+                tingkat Kesulitan: {{ resep.kesulitanResep }}
+              </p>
+              <p>
+                Lama Memasak: {{ resep.lamaResep }} menit
+              </p>
+              <button @click="lihatResep(index)">{{tombolShow(resep.showResep)}}</button>
+            </header>
+            <div v-if="resep.showResep">
+              <div>
+                <p>Bahan - Bahan:</p>
+                <ul>
+                  <li v-for="bahan in resep.bahanResep">{{ bahan.nama }} {{ bahan.banyak }}</li>
+                </ul>
+              </div>
+              <div>
+                <p>Langkah - Langkah:</p>
+                <ol>
+                  <li v-for="langkah in resep.langkahResep">{{ langkah.nama }}</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

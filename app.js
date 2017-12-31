@@ -19,6 +19,7 @@ const App = new Vue({
         descResep: 'ayam yang sangat enak',
         kesulitanResep: '1',
         lamaResep: '2',
+        showResep: false,
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
           { nama: 'nasi', banyak: '1kg' },
@@ -70,7 +71,8 @@ const App = new Vue({
         kesulitanResep,
         lamaResep,
         bahanResep,
-        langkahResep
+        langkahResep,
+        showResep: false
       };
 
       this.storeResep.push(resepBaru);
@@ -87,10 +89,12 @@ const App = new Vue({
 
     // fungsi untuk pencarian berdarakan bahan
     masukanBahan() {
+      this.hasilQueryBahan.splice(0); // agar bersih pencarianya dulu
       this.queryBahan.push(this.newBahan);
       this.newBahan = '';
     },
     hapusBahan(index) {
+      this.hasilQueryBahan.splice(0); // agar bersih pencarianya dulu
       this.queryBahan.splice(index, 1);
     },
     cariResepBahan() {
@@ -106,10 +110,18 @@ const App = new Vue({
           return queryBahan.indexOf(item.nama) >= 0 ? total + 1 : total;
         }, 0);
         return {
+          ...resep,
           namaResep,
           count
         };
       });
+    },
+    lihatResep(index) {
+      const kondisi = this.hasilQueryBahan[index].showResep;
+      this.hasilQueryBahan[index].showResep = !kondisi;
+    },
+    tombolShow(status) {
+      return status ? 'sembunyikan' : 'tampilkan';
     }
   }
 });
