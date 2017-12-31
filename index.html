@@ -144,7 +144,7 @@
                 Keterangan: {{ resep.descResep }}
               </i>
               <p>
-                tingkat Kesulitan: {{ resep.kesulitanResep }}
+                tingkat Kesulitan: {{ renderKesulitan(resep.kesulitanResep) }}
               </p>
               <p>
                 Lama Memasak: {{ resep.lamaResep }} menit
@@ -183,7 +183,7 @@
               Keterangan: {{ resep.descResep }}
             </i>
             <p>
-              tingkat Kesulitan: {{ resep.kesulitanResep }}
+              tingkat Kesulitan: {{ renderKesulitan(resep.kesulitanResep) }}
             </p>
             <p>
               Lama Memasak: {{ resep.lamaResep }} menit

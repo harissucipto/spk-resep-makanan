@@ -3,7 +3,7 @@ const App = new Vue({
   data: {
     // status page
     lihatTambahResep: false,
-    lihatListResep: true,
+    lihatListResep: false,
     lihatCariResep: true,
     isJawaban: false,
 
@@ -24,8 +24,7 @@ const App = new Vue({
         showResep: false,
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
-          { nama: 'nasi', banyak: '1kg' },
-          { nama: 'ubi', banyak: '1kg' }
+          { nama: 'nasi', banyak: '1kg' }
         ],
         langkahResep: [{ nama: 'kurangi bumbu' }, { nama: 'tambah bumbu' }]
       },
@@ -157,6 +156,19 @@ const App = new Vue({
     },
     tombolShow(status) {
       return status ? 'sembunyikan' : 'tampilkan';
+    },
+    renderKesulitan(angka) {
+      angka = Number(angka);
+      switch (angka) {
+        case 1:
+          return 'mudah';
+        case 2:
+          return 'sedang';
+        case 3:
+          return 'susah';
+        default:
+          return '-';
+      }
     }
   }
 });
