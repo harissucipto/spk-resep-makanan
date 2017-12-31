@@ -2,42 +2,96 @@
 
 <head>
   <title>Contoh Pembobotan TF-IDF</title>
+
+  <script src="vue.js"></script>
 </head>
 
 <body>
   <div id="app">
-    <div>
-      <div>
-        <p>Cari Resep Disini</p>
-        <p>
-          <input v-model="newBahan">
-          <button @click="tambahBahan">tambah</button>
+    <div id="tambahResep">
+      <header>
+        <h1>Tambah Resep Masakan</h1>
+      </header>
+      <section>
+        <p>Nama Resep :
+          <input type="text" v-model="namaResep">
+        </p>
+        <p>Description:
+          <textarea v-model="descResep">
+
+          </textarea>
+        </p>
+        <p>Tingkat Kesulitan:
+          <select v-model="kesulitanResep">
+            <option disabled value="">Pilih Salah Satu</option>
+            <option value="1">mudah</option>
+            <option value="2">sedang</option>
+            <option value="3">Susah</option>
+          </select>
+        </p>
+        <p>Lama Memasak (menit):
+          <input type="number" v-model="lamaResep">
         </p>
 
+        <div>
+          <p>Bahan - Bahan:
+            <button @click="tambahBahan">+</button>
+            <button @click="kurangiBahan" v-if="bahanResep.length">-</button>
+          </p>
+          <table border="2" v-if="bahanResep.length">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Jumlah</th>
+              </tr>
 
-        <div v-if="query.length">
-          <ol v-for="(item, index) in query">
-            <li>{{ item }}
-              <button @click="hapusBahan(index)">X</button>
-            </li>
-          </ol>
-          <button @click="cariResep1">Cari Resep</button>
+            </thead>
+            <tbody v-for="(jenisBahan, index) in bahanResep">
+              <tr>
+                <th>{{ index + 1 }}</th>
+                <th>
+                  <input v-model="jenisBahan.nama">
+                </th>
+                <th>
+                  <input v-model="jenisBahan.banyak">
+                </th>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </div>
 
-    <div id="jawaban">
-      <p id="showSoal">
-        {{ testSoal }}
-      </p>
-      <p id="showJawaban">
-        {{ testJawaban }}
-      </p>
+        <div>
+          <p>Langkah Memasak:
+            <button @click="tambahLangkah">+</button>
+            <button @click="kurangiLangkah" v-if="langkahResep.length">-</button>
+          </p>
+          <table border="2" v-if="langkahResep.length">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Keterangan</th>
+              </tr>
+
+            </thead>
+            <tbody v-for="(langkah, index) in langkahResep">
+              <tr>
+                <th>{{ index + 1 }}</th>
+                <th>
+                  <input v-model="langkah.nama">
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button @click="tambahResep">Submit Resep Baru</button>
+
+      </section>
     </div>
   </div>
 
-  <script src="vue.js"></script>
-  <script src="./rumusCari.js"></script>
+  <script src="./app.js"></script>
 
 </body>
 
