@@ -129,6 +129,10 @@
     <div id="hasilCariResep" v-if="isJawaban">
       <h3>Hasil Pencarian:</h3>
       <div v-if="hasilQueryBahan.length">
+        <div>
+          <i>
+            <b>{{ hasilQueryBahan.length }}</b> resep yang direkomendasikan..</i>
+        </div>
         <div v-for="(resep, index) in hasilQueryBahan">
           <div class="resep">
             <header>

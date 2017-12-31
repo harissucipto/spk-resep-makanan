@@ -50,6 +50,11 @@ const App = new Vue({
     hasilQueryBahan: []
   },
   methods: {
+    // safe ambil object di array
+    ambilObject(object) {
+      return JSON.parse(JSON.stringify(object));
+    },
+
     // fungsi untuk halaman tambah resep
     tambahBahan() {
       this.bahanResep.push({});
@@ -72,14 +77,10 @@ const App = new Vue({
         return;
       }
 
-      const {
-        namaResep,
-        descResep,
-        kesulitanResep,
-        lamaResep,
-        bahanResep,
-        langkahResep
-      } = this;
+      const { namaResep, descResep, kesulitanResep, lamaResep } = this;
+
+      const bahanResep = this.ambilObject(this.bahanResep);
+      const langkahResep = this.ambilObject(this.langkahResep);
 
       const resepBaru = {
         namaResep,
@@ -99,6 +100,8 @@ const App = new Vue({
       this.descResep = '';
       this.kesulitanResep = '';
       this.lamaResep = '';
+      this.bahanResep.splice(0);
+      this.langkahResep.splice(0);
     },
 
     // fungsi untuk pencarian berdarakan bahan
