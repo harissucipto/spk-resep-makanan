@@ -19,19 +19,19 @@ const App = new Vue({
       {
         namaResep: 'ayam bekatul',
         descResep: 'ayam yang sangat enak',
-        kesulitanResep: '1',
+        kesulitanResep: 1,
         lamaResep: 4,
         showResep: false,
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
           { nama: 'nasi', banyak: '1kg' }
         ],
-        langkahResep: [{ nama: 'kurangi bumbu' }, { nama: 'tambah bumbu' }]
+        langkahResep: [{ nama: 'tambah bumbu' }]
       },
       {
         namaResep: 'abu bekatul',
         descResep: 'ayam yang sangat enak',
-        kesulitanResep: '1',
+        kesulitanResep: 2,
         lamaResep: 2,
         showResep: false,
         bahanResep: [
@@ -91,7 +91,9 @@ const App = new Vue({
         kesulitanResep,
         lamaResep,
         bahanResep,
+        banyakBahan: bahanResep.length,
         langkahResep,
+        banyakLangkah: langkahResep.length,
         showResep: false
       };
 
@@ -205,6 +207,12 @@ const App = new Vue({
             return fSortBy('count');
           case 2:
             return fSortBy('lamaResep');
+          case 3:
+            return fSortBy('kesulitanResep');
+          case 4:
+            return fSortBy('banyakBahan');
+          case 5:
+            return fSortBy('banyakLangkah');
         }
       },
       set(indexResep) {
