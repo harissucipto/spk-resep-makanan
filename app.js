@@ -168,14 +168,12 @@ const App = new Vue({
     },
 
     //sorting disini
-    sortingByUrutannya(resep, urutannya) {
+    sortingByUrutannya(sortBy, urutannya) {
       urutannya = Number(urutannya);
-      return sortBy => {
-        console.log(urutannya);
-        const hasilSort = sortBy(resep);
+      return key => {
+        const hasilSort = sortBy(key);
         switch (urutannya) {
           case 1:
-            console.log('normal');
             return hasilSort;
           case 2:
             console.log('kebalik');
@@ -189,19 +187,32 @@ const App = new Vue({
           y = b.count;
         return x < y ? -1 : x > y ? 1 : 0;
       });
+    },
+    sortByKey(resep) {
+      return key => {
+        return resep.sort((a, b) => {
+          const x = a[key],
+            y = b[key];
+          return x < y ? -1 : x > y ? 1 : 0;
+        });
+      };
     }
   },
   computed: {
     sortingResep: {
       get() {
-        const { tipeSorting, hasilQueryBahan } = this;
+        let { tipeSorting, hasilQueryBahan } = this;
         const [...resep] = hasilQueryBahan;
-        const fSortBy = this.sortingByUrutannya(resep, this.urutannya);
+        tipeSorting = Number(tipeSorting);
+        const fSortBy = this.sortingByUrutannya(
+          this.sortByKey(resep),
+          this.urutannya
+        );
         switch (tipeSorting) {
           case 1:
-            return fSortBy(this.sortingByCountBahan);
+            return fSortBy('count');
           case 2:
-            return;
+            return fSortBy('lamaResep');
         }
       },
       set(indexResep) {
