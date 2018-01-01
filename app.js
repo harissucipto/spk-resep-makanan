@@ -80,10 +80,11 @@ const App = new Vue({
         return;
       }
 
-      const { namaResep, descResep, kesulitanResep, lamaResep } = this;
+      const { descResep, kesulitanResep, lamaResep } = this;
 
       const bahanResep = this.ambilObject(this.bahanResep);
       const langkahResep = this.ambilObject(this.langkahResep);
+      const namaResep = this.namaResep.trim();
 
       const resepBaru = {
         namaResep,
@@ -113,7 +114,7 @@ const App = new Vue({
     masukanBahan() {
       this.isJawaban = false;
 
-      this.queryBahan.push(this.newBahan);
+      this.queryBahan.push(this.newBahan.trim().toLowerCase());
       this.newBahan = '';
     },
     hapusBahan(index) {
@@ -139,7 +140,9 @@ const App = new Vue({
       return listResep.map(resep => {
         const { bahanResep, namaResep } = resep;
         const count = bahanResep.reduce((total, item) => {
-          return queryBahan.indexOf(item.nama) >= 0 ? total + 1 : total;
+          return queryBahan.indexOf(item.nama.trim().toLowerCase()) >= 0
+            ? total + 1
+            : total;
         }, 0);
         return {
           ...resep,
