@@ -20,7 +20,7 @@ const App = new Vue({
         namaResep: 'ayam bekatul',
         descResep: 'ayam yang sangat enak',
         kesulitanResep: '1',
-        lamaResep: '2',
+        lamaResep: 4,
         showResep: false,
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
@@ -32,7 +32,7 @@ const App = new Vue({
         namaResep: 'abu bekatul',
         descResep: 'ayam yang sangat enak',
         kesulitanResep: '1',
-        lamaResep: '2',
+        lamaResep: 2,
         showResep: false,
         bahanResep: [
           { nama: 'ayam', banyak: '2 kg' },
@@ -176,17 +176,9 @@ const App = new Vue({
           case 1:
             return hasilSort;
           case 2:
-            console.log('kebalik');
             return hasilSort.reverse();
         }
       };
-    },
-    sortingByCountBahan(resep) {
-      return resep.sort((a, b) => {
-        const x = a.count,
-          y = b.count;
-        return x < y ? -1 : x > y ? 1 : 0;
-      });
     },
     sortByKey(resep) {
       return key => {
