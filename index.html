@@ -133,7 +133,24 @@
           <i>
             <b>{{ hasilQueryBahan.length }}</b> resep yang direkomendasikan..</i>
         </div>
-        <div v-for="(resep, index) in hasilQueryBahan">
+        <div id="sortBy">
+          <span>
+            Urutkan Berdasarkan
+            <select v-model="tipeSorting">
+              <option value="1">Banyak Bahan Yang Mirip</option>
+              <option value="2">Lama Memasak</option>
+              <option value="3">Tingkat Kesulitan</option>
+              <option value="4">Efesiensi Resep</option>
+            </select>
+          </span>
+          <span>
+            <select v-model="urutannya">
+              <option value="2">Descending</option>
+              <option value="1">Ascending</option>
+            </select>
+          </span>
+        </div>
+        <div v-for="(resep, index) in sortingResep">
           <div class="resep">
             <header>
               <i>Total Bahan Sesuai:
@@ -149,7 +166,7 @@
               <p>
                 Lama Memasak: {{ resep.lamaResep }} menit
               </p>
-              <button @click="lihatResep(index)">{{tombolShow(resep.showResep)}}</button>
+              <button @click="sortingResep = index">{{tombolShow(resep.showResep)}}</button>
             </header>
             <div v-if="resep.showResep">
               <div>

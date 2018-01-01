@@ -46,7 +46,11 @@ const App = new Vue({
     // pencarian berdasrakan bahan
     newBahan: '',
     queryBahan: [],
-    hasilQueryBahan: []
+    hasilQueryBahan: [],
+
+    //filter hasil
+    tipeSorting: 1,
+    urutannya: 2
   },
   methods: {
     // safe ambil object di array
@@ -120,22 +124,14 @@ const App = new Vue({
       this.hasilQueryBahan.splice(0);
 
       // cari hasil dan filter
-      const hasil = this.algoCariResepBahan(
+      const resep = this.algoCariResepBahan(
         this.storeResep,
         this.queryBahan
       ).filter(resep => resep.count);
 
-      if (!hasil) return; // jika count 0 abaikan
+      if (!resep) return; // jika count 0 abaikan
 
-      const sortingHasil = hasil //descent
-        .sort((a, b) => {
-          const x = a.count,
-            y = b.count;
-          return x < y ? -1 : x > y ? 1 : 0;
-        })
-        .reverse();
-
-      this.hasilQueryBahan.push(...sortingHasil);
+      this.hasilQueryBahan.push(...resep);
     },
     algoCariResepBahan(listResep, queryBahan) {
       return listResep.map(resep => {
@@ -168,6 +164,49 @@ const App = new Vue({
           return 'susah';
         default:
           return '-';
+      }
+    },
+
+    //sorting disini
+    sortingByUrutannya(resep, urutannya) {
+      urutannya = Number(urutannya);
+      return sortBy => {
+        console.log(urutannya);
+        const hasilSort = sortBy(resep);
+        switch (urutannya) {
+          case 1:
+            console.log('normal');
+            return hasilSort;
+          case 2:
+            console.log('kebalik');
+            return hasilSort.reverse();
+        }
+      };
+    },
+    sortingByCountBahan(resep) {
+      return resep.sort((a, b) => {
+        const x = a.count,
+          y = b.count;
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    }
+  },
+  computed: {
+    sortingResep: {
+      get() {
+        const { tipeSorting, hasilQueryBahan } = this;
+        const [...resep] = hasilQueryBahan;
+        const fSortBy = this.sortingByUrutannya(resep, this.urutannya);
+        switch (tipeSorting) {
+          case 1:
+            return fSortBy(this.sortingByCountBahan);
+          case 2:
+            return;
+        }
+      },
+      set(indexResep) {
+        const condition = this.hasilQueryBahan[indexResep].showResep;
+        return (this.hasilQueryBahan[indexResep].showResep = !condition);
       }
     }
   }
